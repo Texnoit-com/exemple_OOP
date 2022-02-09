@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, Dict
 
 
 class InfoMessage():
@@ -140,7 +140,7 @@ class Swimming(Training):
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
     DataDict = Union['Running', 'SportsWalking', 'Swimming']
-    CustomDict = dict[str, DataDict]
+    CustomDict = Dict[str, DataDict]
     view_training: CustomDict = {'SWM': Swimming,
                                  'RUN': Running,
                                  'WLK': SportsWalking}
