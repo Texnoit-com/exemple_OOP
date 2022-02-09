@@ -79,8 +79,9 @@ class Running(Training):
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
 
-        weight_callorie: float = (self.COEFF_CALORIE_1 * self.get_mean_speed() - self.COEFF_CALORIE_2) * self.weight
-
+        weight_callorie: float = ((self.COEFF_CALORIE_1 *
+                                   self.get_mean_speed() -
+                                   self.COEFF_CALORIE_2) * self.weight)
         return weight_callorie / self.M_IN_KM * self.duration*60
 
 
@@ -102,9 +103,9 @@ class SportsWalking(Training):
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
         weight_calorie_1: float = self.COEFF_CALORIE_1 * self.weight
-        weight_calorie_2: float = (weight_calorie_1 + (self.get_mean_speed()**2 // self.height) *
+        weight_calorie_2: float = (weight_calorie_1 +
+                                   (self.get_mean_speed()**2 // self.height) *
                                    self.COEFF_CALORIE_2 * self.weight)
-
         return weight_calorie_2 * self.duration*60
 
 
@@ -128,23 +129,25 @@ class Swimming(Training):
 
     def get_mean_speed(self) -> float:
         """Получить среднюю скорость при плавании."""
-        return self.length_pool * self.count_pool / self.M_IN_KM / self.duration
+        return (self.length_pool * self.count_pool /
+                self.M_IN_KM / self.duration)
 
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
-
-        return (self.get_mean_speed() + self.MEAN_SPEED) * self.COEFF_CALORIE_1 * self.weight
+        return ((self.get_mean_speed() + self.MEAN_SPEED) *
+                self.COEFF_CALORIE_1 * self.weight)
 
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
-    CustomDict = dict[str, Union['Running', 'SportsWalking', 'Swimming']]
+    DataDict = Union['Running', 'SportsWalking', 'Swimming']
+    CustomDict = dict[str, DataDict]
     view_training: CustomDict = {
                                 'SWM': Swimming,
                                 'RUN': Running,
                                 'WLK': SportsWalking,
                                 }
-    obj: Union['Running', 'SportsWalking', 'Swimming'] = view_training[workout_type](*data)
+    obj: DataDict = view_training[workout_type](*data)
     return obj
 
 
