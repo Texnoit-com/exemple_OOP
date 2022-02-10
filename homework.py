@@ -73,9 +73,16 @@ class Running(Training):
 class SportsWalking(Training):
 
     """Тренировка: спортивная ходьба."""
-    height: float
-    COEFF_CALORIE_1: ClassVar = 0.035
-    COEFF_CALORIE_2: ClassVar = 0.029
+    def __init__(self,
+                 action: int,
+                 duration: float,
+                 weight: float,
+                 height: float,
+                 ) -> None:
+        super().__init__(action, duration, weight)
+        self.height = height
+    COEFF_CALORIE_1: float = 0.035
+    COEFF_CALORIE_2: float = 0.029
 
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
@@ -89,11 +96,20 @@ class SportsWalking(Training):
 class Swimming(Training):
 
     """Тренировка: плавание."""
-    length_pool: float
-    count_pool: float
-    LEN_STEP: ClassVar = 1.38
-    MEAN_SPEED: ClassVar = 1.1
-    COEFF_CALORIE_1: ClassVar = 2
+    def __init__(self,
+                 action: int,
+                 duration: float,
+                 weight: float,
+                 length_pool: float,
+                 count_pool: float,
+                 ) -> None:
+        super().__init__(action, duration, weight)
+        self.length_pool = length_pool
+        self.count_pool = count_pool
+
+    LEN_STEP: float = 1.38
+    MEAN_SPEED: float = 1.1
+    COEFF_CALORIE_1: float = 2
 
     def get_mean_speed(self) -> float:
         """Получить среднюю скорость при плавании."""
@@ -117,7 +133,8 @@ def read_package(workout_type: str, data: List[int]) -> Training:
 
 def main(training: Training) -> None:
     """Главная функция."""
-    print(training.show_training_info().get_message())
+    info: InfoMessage = training.show_training_info()
+    print(info.get_message())
 
 
 if __name__ == '__main__':
